@@ -1,4 +1,3 @@
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -40,10 +39,7 @@ public class URMTracer {
 
     public void interpret() throws IOException {
         this.printRegisters();
-        //S [index]
-        //Z [index]
-        //C [from] -> [to]
-        //J [index1] [index2] [if true go to line]
+
         for (; this.pointer != this.code.size() + 1; this.pointer++) {
 
             try {
@@ -51,18 +47,22 @@ public class URMTracer {
 
                 int index = Integer.parseInt(lineCode[1]);
 
-                if (lineCode[0].equals("S")) {
-                    this.register[index]++;
-                } else if (lineCode[0].equals("Z")) {
-                    this.register[index] = 0;
-                } else if (lineCode[0].equals("C")) {
-                    int index1 = Integer.parseInt(lineCode[2]);
-                    this.register[index1] = this.register[index];
-                } else if (lineCode[0].equals("J")) {
-                    if (this.register[Integer.parseInt(lineCode[1])]
-                            == this.register[Integer.parseInt(lineCode[2])]) {
-                        pointer = Integer.parseInt(lineCode[3]) - 1;
-                    }
+                switch (lineCode[0]) {
+                    case "S":
+                        this.register[index]++;
+                        break;
+                    case "Z":
+                        this.register[index] = 0;
+                        break;
+                    case "C":
+                        int index1 = Integer.parseInt(lineCode[2]);
+                        this.register[index1] = this.register[index];
+                        break;
+                    case "J":
+                        if (this.register[Integer.parseInt(lineCode[1])]
+                                == this.register[Integer.parseInt(lineCode[2])]) {
+                            pointer = Integer.parseInt(lineCode[3]) - 1;
+                        }   break;
                 }
                 this.printRegisters();
             } catch (NumberFormatException |
@@ -92,9 +92,8 @@ public class URMTracer {
         FileWriter fw;
         fw = new FileWriter(fileName);
 
-        for (String s : this.output) {
+        for (String s : this.output)
             fw.append(s);
-        }
 
         fw.close();
     }
