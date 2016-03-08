@@ -113,8 +113,8 @@ public class URMTracer {
     }
 
     /**
-     * printRegisters prints the current value of the registers, 
-     * separated by space
+     * storeRegistersToOutput stores the current value of the registers, 
+     * separated by space, to the output array list.
      * 
      */
     private void storeRegistersToOutput() {
